@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.example.shop.constants.Urls;
 import com.example.shop.dto.CreateProductDTO;
+import com.example.shop.dto.CreateProductResultDTO;
+import com.example.shop.dto.ValidationCreateProductDTO;
 import com.example.shop.network.ProductService;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,14 +50,26 @@ public class MainActivity extends AppCompatActivity {
                 .getInstance()
                 .jsonApi()
                 .create(dto)
-                .enqueue(new Callback<Void>() {
+                .enqueue(new Callback<CreateProductResultDTO>() {
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
+                    public void onResponse(Call<CreateProductResultDTO> call, Response<CreateProductResultDTO> response) {
+                        if(response.isSuccessful()) {
+                            CreateProductResultDTO result = response.body();
+                        }
+                        else {
+                            try {
+                                String json = response.errorBody().string();
+                                Gson gson = new Gson();
+                                ValidationCreateProductDTO serverError = gson.fromJson(json,
+                                        ValidationCreateProductDTO.class);
+                            } catch(Exception ex) {
 
+                            }
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
+                    public void onFailure(Call<CreateProductResultDTO> call, Throwable t) {
 
                     }
                 });

@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 using Shop.Data.Entities;
+using Shop.Helpers;
 using Shop.Models;
+using System.Drawing.Imaging;
 
 namespace Shop.Controllers
 {
@@ -23,16 +25,25 @@ namespace Shop.Controllers
         [HttpPost("create")]
         public IActionResult Create(CreateProductViewModel model)
         {
+            var img = ImageWorker.FromBase64StringToImage(model.Image);
+            string randomFilename = Path.GetRandomFileName() + ".jpeg";
+            var dir = Path.Combine(Directory.GetCurrentDirectory(), "uploads", randomFilename);
+            img.Save(dir, ImageFormat.Jpeg);
+
             var product = _mapper.Map<ProductEntity>(model);
             _context.Products.Add(product);
             _context.SaveChanges();
-            return Ok();
+
+            return Ok(new { id = product.Id });
         }
 
-        [HttpGet("all")]
-        public List<ProductEntity> Read()
+        [HttpGet("list")]
+        public IActionResult Index()
         {
-            return _context.Products.ToList();
+            var list = _context.Products
+                    .Select(x => _mapper.Map<ProductItemViewModel>(x))
+                    .ToList();
+            return Ok(list);
         }
     }
 }
