@@ -42,7 +42,8 @@
             android:layout_marginEnd="42dp"
             android:hint="Назва"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtInfo">
+            app:layout_constraintTop_toBottomOf="@+id/txtInfo"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextName"
@@ -60,7 +61,8 @@
             android:layout_marginEnd="42dp"
             android:hint="Ціна"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textFieldName">
+            app:layout_constraintTop_toBottomOf="@+id/textFieldName"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPrice"
@@ -79,7 +81,8 @@
             android:layout_marginEnd="42dp"
             android:hint="Фото"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textFieldPrice">
+            app:layout_constraintTop_toBottomOf="@+id/textFieldPrice"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextImage"

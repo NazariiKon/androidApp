@@ -1,7 +1,9 @@
 package com.example.shop;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 .jsonApi()
                 .create(dto)
                 .enqueue(new Callback<CreateProductResultDTO>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onResponse(Call<CreateProductResultDTO> call, Response<CreateProductResultDTO> response) {
                         if(response.isSuccessful()) {
@@ -62,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
                                 Gson gson = new Gson();
                                 ValidationCreateProductDTO serverError = gson.fromJson(json,
                                         ValidationCreateProductDTO.class);
+
+                                editTextName.setError(String.join("", serverError.errors.name));
+                                editTextPrice.setError(String.join("", serverError.errors.price));
+                                editTextImage.setError(String.join("", serverError.errors.image));
                             } catch(Exception ex) {
 
                             }

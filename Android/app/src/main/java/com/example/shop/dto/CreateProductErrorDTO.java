@@ -3,7 +3,7 @@ import lombok.Data;
 
 @Data
 public class CreateProductErrorDTO {
-    private String [] name;
-    private String [] price;
-    private String [] image;
+    public String [] name;
+    public String [] price;
+    public String [] image;
 }
