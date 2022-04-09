@@ -1,16 +1,15 @@
 package com.example.shop;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.shop.constants.Urls;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.shop.dto.CreateProductDTO;
 import com.example.shop.dto.CreateProductResultDTO;
 import com.example.shop.dto.ValidationCreateProductDTO;
@@ -58,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<CreateProductResultDTO> call, Response<CreateProductResultDTO> response) {
                         if(response.isSuccessful()) {
                             CreateProductResultDTO result = response.body();
+                            Intent intent = new Intent(MainActivity.this, ActivityTwo.class);
+                            startActivity(intent);
                         }
                         else {
                             try {
