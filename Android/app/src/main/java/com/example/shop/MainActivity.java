@@ -1,8 +1,15 @@
 package com.example.shop;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +23,9 @@ import com.example.shop.dto.ValidationCreateProductDTO;
 import com.example.shop.network.ProductService;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,7 +36,11 @@ public class MainActivity extends AppCompatActivity {
     EditText editTextName;
     EditText editTextPrice;
     EditText editTextDescription;
-    EditText editTextImage;
+
+    // constant to compare
+    // the activity result code
+    int SELECT_PICTURE = 200;
+    String sImage="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +50,50 @@ public class MainActivity extends AppCompatActivity {
         editTextName = findViewById(R.id.editTextName);
         editTextPrice = findViewById(R.id.editTextPrice);
         editTextDescription = findViewById(R.id.editTextDescription);
-        editTextImage = findViewById(R.id.editTextImage);
+    }
+
+    public void handleSelectImageClick(View view) {
+        // create an instance of the
+        // intent of the type image
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+
+        // pass the constant to compare it
+        // with the returned requestCode
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+    }
+
+    // this function is triggered when user
+    // selects the image from the imageChooser
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+
+            // compare the resultCode with the
+            // SELECT_PICTURE constant
+            if (requestCode == SELECT_PICTURE) {
+                // Get the url of the image from data
+                Uri uri = data.getData();
+                // update the preview image in the layout
+                //IVPreviewImage.setImageURI(uri);
+                Bitmap bitmap= null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // initialize byte stream
+                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                // compress Bitmap
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+                // Initialize byte array
+                byte[] bytes=stream.toByteArray();
+                // get base64 encoded string
+                sImage= Base64.encodeToString(bytes,Base64.DEFAULT);
+            }
+        }
     }
 
     public void handleClick(View view)
@@ -45,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 editTextName.getText().toString(),
                 editTextPrice.getText().toString(),
                 editTextDescription.getText().toString(),
-                editTextImage.getText().toString()
+                sImage
         );
         ProductService
                 .getInstance()
@@ -57,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<CreateProductResultDTO> call, Response<CreateProductResultDTO> response) {
                         if(response.isSuccessful()) {
                             CreateProductResultDTO result = response.body();
-                            Intent intent = new Intent(MainActivity.this, ActivityTwo.class);
+                            Intent intent = new Intent(MainActivity.this, ProductsActivity.class);
                             startActivity(intent);
                         }
                         else {
@@ -69,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 editTextName.setError(String.join("", serverError.errors.name));
                                 editTextPrice.setError(String.join("", serverError.errors.price));
-                                editTextImage.setError(String.join("", serverError.errors.image));
+//                                editTextImage.setError(String.join("", serverError.errors.image));
                             } catch(Exception ex) {
 
                             }
@@ -84,5 +141,32 @@ public class MainActivity extends AppCompatActivity {
         int n=5;
 //        String text = editTextName.getText().toString();
 //        txtInfo.setText(text);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.m_zakuska:
+                try {
+                    intent = new Intent(MainActivity.this, ProductsActivity.class);
+                    startActivity(intent);
+                }
+                catch(Exception ex) {
+                    System.out.println("Problem "+ ex.getMessage());
+                }
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 }
