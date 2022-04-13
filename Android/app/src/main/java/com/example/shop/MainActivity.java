@@ -1,7 +1,10 @@
 package com.example.shop;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -98,7 +102,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void handleClick(View view)
     {
-        CreateProductDTO dto = new CreateProductDTO(
+        if(hasConnection(this))
+            Toast.makeText(this, "Інтернет присутній", Toast.LENGTH_LONG).show();
+        else {
+            Toast.makeText(this, "Відсутнє з'єднання з інтернетом", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+            CreateProductDTO dto = new CreateProductDTO(
                 editTextName.getText().toString(),
                 editTextPrice.getText().toString(),
                 editTextDescription.getText().toString(),
@@ -155,6 +166,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.m_zakuska:
+                if(hasConnection(this))
+                    Toast.makeText(this, "Інтернет присутній", Toast.LENGTH_LONG).show();
+                else {
+                    Toast.makeText(this, "Відсутнє з'єднання з інтернетом", Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 try {
                     intent = new Intent(MainActivity.this, ProductsActivity.class);
                     startActivity(intent);
@@ -167,6 +184,16 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
 
+    // перевіряє з'єднання з інтернетом та викликає напис в нижній частині екрану
+    public boolean hasConnection(final Context context){
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNW = cm.getActiveNetworkInfo();
+        if (activeNW != null && activeNW.isConnected())
+        {
+            return true;
+        }
+        return false;
     }
 }
