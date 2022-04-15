@@ -164,14 +164,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
+        if(hasConnection(this))
+            Toast.makeText(this, "Інтернет присутній", Toast.LENGTH_LONG).show();
+        else {
+            Toast.makeText(this, "Відсутнє з'єднання з інтернетом", Toast.LENGTH_LONG).show();
+            return false;
+        }
         switch (item.getItemId()) {
             case R.id.m_zakuska:
-                if(hasConnection(this))
-                    Toast.makeText(this, "Інтернет присутній", Toast.LENGTH_LONG).show();
-                else {
-                    Toast.makeText(this, "Відсутнє з'єднання з інтернетом", Toast.LENGTH_LONG).show();
-                    return false;
-                }
                 try {
                     intent = new Intent(MainActivity.this, ProductsActivity.class);
                     startActivity(intent);
