@@ -1,18 +1,14 @@
 package com.example.shop;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shop.dto.ProductDTO;
 import com.example.shop.network.ProductService;
 import com.example.shop.productcard.ProductsAdapter;
+import com.example.shop.utils.CommonUtils;
 
 import java.util.List;
 
@@ -20,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductsActivity extends AppCompatActivity {
+public class ProductsActivity extends BaseActivity {
 
     private RecyclerView rcvProducts;
     private ProductsAdapter adapter;
@@ -33,6 +29,7 @@ public class ProductsActivity extends AppCompatActivity {
         rcvProducts.setHasFixedSize(true);
         rcvProducts.setLayoutManager(new GridLayoutManager(this, 2,
                 RecyclerView.VERTICAL, false));
+        CommonUtils.showLoading(this);
 
         ProductService.getInstance()
                 .jsonApi()
@@ -45,6 +42,7 @@ public class ProductsActivity extends AppCompatActivity {
                             adapter=new ProductsAdapter(response.body());
                             rcvProducts.setAdapter(adapter);
                         }
+                        CommonUtils.hideLoading();
                     }
 
                     @Override
@@ -52,31 +50,5 @@ public class ProductsActivity extends AppCompatActivity {
 
                     }
                 });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case R.id.m_create:
-                try {
-                    intent = new Intent( ProductsActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-                catch(Exception ex) {
-                    System.out.println("Problem "+ ex.getMessage());
-                }
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

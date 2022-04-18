@@ -4,7 +4,7 @@
     <item android:id="@+id/m_zakuska"
         android:title="Закуски"
         app:showAsAction="never"/>
-    <item android:id="@+id/m_create"
+    <item android:id="@+id/m_home"
         android:title="Додати"
         app:showAsAction="never"/>
 </menu>

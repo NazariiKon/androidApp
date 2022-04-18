@@ -10,16 +10,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shop.dto.CreateProductDTO;
 import com.example.shop.dto.CreateProductResultDTO;
@@ -34,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     TextView txtInfo;
     EditText editTextName;
@@ -154,39 +150,7 @@ public class MainActivity extends AppCompatActivity {
 //        txtInfo.setText(text);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        if(hasConnection(this))
-            Toast.makeText(this, "Інтернет присутній", Toast.LENGTH_LONG).show();
-        else {
-            Toast.makeText(this, "Відсутнє з'єднання з інтернетом", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        switch (item.getItemId()) {
-            case R.id.m_zakuska:
-                try {
-                    intent = new Intent(MainActivity.this, ProductsActivity.class);
-                    startActivity(intent);
-                }
-                catch(Exception ex) {
-                    System.out.println("Problem "+ ex.getMessage());
-                }
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    // перевіряє з'єднання з інтернетом та викликає напис в нижній частині екрану
+    // перевіряє з'єднання з інтернетом
     public boolean hasConnection(final Context context){
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNW = cm.getActiveNetworkInfo();
