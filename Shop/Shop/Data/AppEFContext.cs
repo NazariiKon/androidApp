@@ -8,7 +8,7 @@ namespace Shop.Data
 {
     public class AppEFContext : IdentityDbContext<AppUser, AppRole, long, IdentityUserClaim<long>,
         AppUserRole, IdentityUserLogin<long>,
-        IdentityRoleClaim<long>, IdentityUserToken<long>>
+        IdentityRoleClaim<long>, IdentityUserToken<long>> // identity інтерфейси
     {
         public AppEFContext(DbContextOptions<AppEFContext> options) :
            base(options)

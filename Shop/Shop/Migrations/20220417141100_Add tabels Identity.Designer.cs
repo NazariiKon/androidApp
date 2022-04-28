@@ -12,7 +12,7 @@ using Shop.Data;
 namespace Shop.Migrations
 {
     [DbContext(typeof(AppEFContext))]
-    [Migration("20220417144737_Add tabels Identity")]
+    [Migration("20220417141100_Add tabels Identity")]
     partial class AddtabelsIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

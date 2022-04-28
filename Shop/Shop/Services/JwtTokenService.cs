@@ -23,15 +23,15 @@ namespace Shop.Services
             _userManager = userManager;
         }
 
-        public string CreateToken(AppUser user)
+        public string CreateToken(AppUser user) // створює токен, приймає юзера
         {
-            var roles = _userManager.GetRolesAsync(user).Result;
+            var roles = _userManager.GetRolesAsync(user).Result; // видає роль
             List<Claim> claims = new List<Claim>()
             {
                 new Claim("name", user.UserName)//,
                 //new Claim("image", user.Photo)
             };
-            if (roles.Any())
+            if (roles.Any()) // якщо немає ролі
             {
                 foreach (var role in roles)
                 {

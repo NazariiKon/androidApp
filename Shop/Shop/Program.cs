@@ -18,9 +18,9 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppEFContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))); // контекст
 
-builder.Services.AddIdentity<AppUser, AppRole>(options =>
+builder.Services.AddIdentity<AppUser, AppRole>(options => // налаштування identity
 {
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 5;
@@ -31,22 +31,22 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
+builder.Services.AddControllers().AddNewtonsoftJson(options => // налаштування json
 {
     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
     options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Include;
     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 });
 
-builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-builder.Services.AddAutoMapper(typeof(AppMapProfile));
-builder.Services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Program>());
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>(); // налаштування токена
+builder.Services.AddAutoMapper(typeof(AppMapProfile)); // налаштування мапера
+builder.Services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Program>()); // налаштування валідатора
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<String>("JwtKey")));
 
-builder.Services.AddAuthentication(options =>
+builder.Services.AddAuthentication(options => // авторизація
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;

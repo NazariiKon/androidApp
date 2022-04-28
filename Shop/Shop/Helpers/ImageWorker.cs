@@ -2,7 +2,7 @@
 
 namespace Shop.Helpers
 {
-    public static class ImageWorker
+    public static class ImageWorker // клас який конвертує base64 в Bitmap
     {
         public static Bitmap FromBase64StringToImage(this string base64String)
         {
