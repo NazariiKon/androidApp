@@ -1,7 +1,9 @@
 package com.example.shop.network;
 
+import com.example.shop.dto.AccountResponseDTO;
 import com.example.shop.dto.CreateProductDTO;
 import com.example.shop.dto.CreateProductResultDTO;
+import com.example.shop.dto.LoginDTO;
 import com.example.shop.dto.ProductDTO;
 
 import java.util.List;
@@ -16,4 +18,6 @@ public interface ProductApi {
     public Call<CreateProductResultDTO> create(@Body CreateProductDTO model);
     @GET("/api/products/list")
     public Call<List<ProductDTO>> list();
+    @POST("/api/account/login")
+    public Call<AccountResponseDTO> login(@Body LoginDTO model);
 }

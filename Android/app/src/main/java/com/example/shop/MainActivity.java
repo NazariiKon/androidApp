@@ -126,13 +126,14 @@ public class MainActivity extends BaseActivity {
                         }
                         else {
                             try {
+                                Toast.makeText(MainActivity.this, "Problem "+response.code(), Toast.LENGTH_SHORT).show();
                                 String json = response.errorBody().string();
                                 Gson gson = new Gson();
                                 ValidationCreateProductDTO serverError = gson.fromJson(json,
                                         ValidationCreateProductDTO.class);
 
-                                editTextName.setError(String.join("", serverError.errors.name));
-                                editTextPrice.setError(String.join("", serverError.errors.price));
+//                                editTextName.setError(String.join("", serverError.errors.name));
+//                                editTextPrice.setError(String.join("", serverError.errors.price));
 //                                editTextImage.setError(String.join("", serverError.errors.image));
                             } catch(Exception ex) {
 
