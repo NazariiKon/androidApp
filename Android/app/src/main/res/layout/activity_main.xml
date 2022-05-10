@@ -17,7 +17,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="28dp"
             android:onClick="handleClick"
-            android:text="Зберегти"
+            android:text="Save"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Додати товар"
+            android:text="Add new Item"
             android:textSize="32dp"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -40,7 +40,7 @@
             android:layout_marginStart="42dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="42dp"
-            android:hint="Назва"
+            android:hint="Name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtInfo">
 
@@ -58,7 +58,7 @@
             android:layout_marginStart="42dp"
             android:layout_marginTop="22dp"
             android:layout_marginEnd="42dp"
-            android:hint="Ціна"
+            android:hint="Price"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textFieldName">
 
@@ -78,7 +78,7 @@
             android:layout_marginEnd="42dp"
             android:layout_marginTop="22dp"
             android:onClick="handleSelectImageClick"
-            android:text="Обрати фото"
+            android:text="Choose Image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textFieldPrice" />
 
@@ -89,7 +89,7 @@
             android:layout_marginStart="42dp"
             android:layout_marginTop="22dp"
             android:layout_marginEnd="42dp"
-            android:hint="Опис"
+            android:hint="Description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectImage">
 

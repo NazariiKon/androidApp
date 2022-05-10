@@ -6,11 +6,11 @@
         android:visible="true">
         <item
             android:id="@+id/m_zakuska"
-            android:title="Закуски"
+            android:title="Home"
             app:showAsAction="never" />
         <item
             android:id="@+id/m_login"
-            android:title="Вхід"
+            android:title="Sign In"
             app:showAsAction="never" />
     </group>
 
@@ -19,12 +19,12 @@
         android:visible="false">
         <item
             android:id="@+id/m_home"
-            android:title="Додому"
+            android:title="Add New Item"
             app:showAsAction="never" />
 
         <item
             android:id="@+id/m_logout"
-            android:title="Вихід"
+            android:title="Log out"
             app:showAsAction="never" />
     </group>
 
